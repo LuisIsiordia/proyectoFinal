@@ -1,4 +1,6 @@
+import datos
 def agregarTalleres():
-  IDtaller = int(input("ID del Taller: "))
+  idtaller = int(input("ID del Taller: "))
+  for id in 
   
   
