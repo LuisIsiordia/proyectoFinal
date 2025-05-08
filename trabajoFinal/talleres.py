@@ -1,3 +1,4 @@
 def agregarTalleres():
-  ID = int(input("ID del Taller: "))
+  IDtaller = int(input("ID del Taller: "))
+  
   
