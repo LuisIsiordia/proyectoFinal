@@ -12,7 +12,7 @@ print("1.Agregar un nuevo taller al catalogo\n",
 resp=input("Teclee su opción: ")
 
 if resp=='1':
-    print(talleres.agregarTalleres)
+    talleres.agregarTalleres
 elif resp=='2':
     print("2")
 elif resp=='3':        
