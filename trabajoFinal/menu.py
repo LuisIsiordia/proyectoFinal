@@ -1,3 +1,5 @@
+import talleres
+
 print("1.Agregar un nuevo taller al catalogo\n",
       "2.Dar de baja un taller del catalogo\n",
       "3.Actualizar los datos de un taller\n",
@@ -10,7 +12,7 @@ print("1.Agregar un nuevo taller al catalogo\n",
 resp=input("Teclee su opción: ")
 
 if resp=='1':
-    print("1")
+    print(talleres.agregarTalleres)
 elif resp=='2':
     print("2")
 elif resp=='3':        
