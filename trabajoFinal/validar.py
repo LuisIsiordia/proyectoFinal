@@ -4,7 +4,7 @@ def validarAgregar(respuestaAgregar):
         print("Tipo de respues invalida escoja solo entre estos dos caracter ('S' o 'N')")
         respuestaAgregar = input("¿Confirmar el registro? (S/N): ").upper()
     return respuestaAgregar
-def validarAgregar(respuestaAñadir):
+def validarAñadir(respuestaAñadir):
     while respuestaAñadir != "S" and respuestaAñadir != "N":
         print("Tipo de respues invalida escoja solo entre estos dos caracter ('S' o 'N')")
         respuestaAñadir = input("¿Quiere añadir otro taller? (S/N): ").upper()
