@@ -14,4 +14,7 @@ def agregarTalleres():
   capEstudiantes = int(input("Cupo maximo de estudiantes: "))
   costoTaller = float(input("Costo del taller: "))
   
-  
+  respuestaAgregar = input("¿Confirmar el registro? (S/N): ").upper()
+  validar.validarAgregar(respuestaAgregar)
+  if respuestaAgregar == "N":
+    agregarTalleres()
