@@ -1,4 +1,6 @@
+from datos import talleres
 #Validación para agregar un taller
+
 def validarAgregar(respuestaAgregar):
     while respuestaAgregar != "S" and respuestaAgregar != "N":
         print("Tipo de respues invalida escoja solo entre estos dos caracter ('S' o 'N')")
@@ -10,3 +12,130 @@ def validarAñadir(respuestaAñadir):
         print("Tipo de respues invalida escoja solo entre estos dos caracter ('S' o 'N')")
         respuestaAñadir = input("¿Quiere añadir otro taller? (S/N): ").upper()
     return respuestaAñadir
+def llamarMenu():
+    import menu
+    menu.menu()
+
+
+
+def ordenamientoTalleres(resp):
+    if resp == "4":
+        
+        # Mostrar opciones de ordenamiento
+        print("\nMostrar el listado de talleres")
+        print("Indique el campo de interés (I=ID, D=duración, L=lugar, C=costo):")
+        campo = input("-> ").upper()
+        print("Indique el Orden (A=ascendente, D=Descendente):")
+        orden = input("-> ").upper()
+
+        # Validar entrada del campo
+        while campo not in ['I', 'D', 'L', 'C']:
+            print("Opción no válida. Intente nuevamente.")
+            campo = input("Indique el campo de interés (I=ID, D=duración, L=lugar, C=costo)-> ").upper()
+
+        # Validar entrada del orden
+        while orden not in ['A', 'D']:
+            print("Opción no válida. Intente nuevamente.")
+            orden = input("Indique el Orden (A=ascendente, D=Descendente)-> ").upper()
+
+        # Determinar la clave de ordenamiento y el orden
+        if campo == 'I':
+            clave = lambda x: x[0]  # Ordenar por ID
+        elif campo == 'D':
+            clave = lambda x: x[1]['duracion']  # Ordenar por duración
+        elif campo == 'L':
+            clave = lambda x: x[1]['lugar']  # Ordenar por lugar
+        elif campo == 'C':
+            clave = lambda x: x[1]['costo']  # Ordenar por costo
+
+        # Ordenar los talleres
+        talleresOrdenados = sorted(talleres.items(), key=clave, reverse=(orden == 'D'))
+        
+        # Encabezados de la tabla
+        headers = ["ID", "Nombre", "Fecha", "Hora", "Duración", "Lugar", "Capacidad", "Costo"]
+
+        # Anchos fijos para las columnas
+        anchoID = 6
+        anchoNombre = 25
+        anchoFecha = 12
+        anchoHora = 12
+        anchoDuracion = 12
+        anchoLugar = 10
+        anchoCapacidad = 10
+        anchoCosto = 10
+
+        # Formato de impresión
+        formato = f"{{:<{anchoID}}}  {{:<{anchoNombre}}}  {{:<{anchoFecha}}}  {{:<{anchoHora}}}  {{:<{anchoDuracion}}}  {{:<{anchoLugar}}}  {{:<{anchoCapacidad}}}  {{:<{anchoCosto}}}"
+
+        # Imprimir encabezado
+        print("Talleres disponibles en la Semana de ISW")
+        print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
+        print(formato.format(*headers))
+        print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
+
+        # Imprimir cada taller desde el diccionario talleres
+        for idTaller, datosTaller in talleresOrdenados:
+            print(formato.format(
+                str(idTaller),
+                datosTaller["nombre"],
+                datosTaller["fecha"],
+                datosTaller["hora"],
+                datosTaller["duracion"],
+                datosTaller["lugar"],
+                str(datosTaller["capacidad"]),
+                f"${datosTaller['costo']:.2f}"
+            ))
+
+        # Contar los talleres
+        totalTalleres = len(talleres)
+        # Total de talleres
+        print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
+        print(f"Total de Talleres:{totalTalleres}")
+        
+        resp=input("ingrese 1 para volver al menu:").upper()
+        if resp == "1":
+            import menu
+            menu.menu()
+
+        
+    if resp == "S":
+        # Encabezados de la tabla
+        headers = ["ID", "Nombre", "Fecha", "Hora", "Duración", "Lugar", "Capacidad", "Costo"]
+
+        # Anchos fijos para las columnas
+        anchoID = 6
+        anchoNombre = 25
+        anchoFecha = 12
+        anchoHora = 12
+        anchoDuracion = 12
+        anchoLugar = 10
+        anchoCapacidad = 10
+        anchoCosto = 10
+
+        # Formato de impresión
+        formato = f"{{:<{anchoID}}}  {{:<{anchoNombre}}}  {{:<{anchoFecha}}}  {{:<{anchoHora}}}  {{:<{anchoDuracion}}}  {{:<{anchoLugar}}}  {{:<{anchoCapacidad}}}  {{:<{anchoCosto}}}"
+
+        # Imprimir encabezado
+        print("Talleres disponibles en la Semana de ISW")
+        print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
+        print(formato.format(*headers))
+        print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
+
+        # Imprimir cada taller desde el diccionario talleres
+        for idTaller,dato in sorted(talleres.items()):  
+            print(formato.format(
+                str(idTaller),
+                dato["nombre"],
+                dato["fecha"],
+                dato["hora"],
+                dato["duracion"],
+                dato["lugar"],
+                str(dato["capacidad"]),
+                f"${dato['costo']:.2f}"
+            ))
+
+        # Contar los talleres
+        totalTalleres = len(talleres)
+        # Total de talleres
+        print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
+        print(f"Total de Talleres:{totalTalleres}")
