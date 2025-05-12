@@ -1,5 +1,6 @@
 talleres = {
 
+  ddaa
     1: {"nombre": "Java desde 0", "fecha": "2024-12-11", "hora": "11:00 AM", "duracion": "2 horas","lugar": "AV-1825", "capacidad": 20, "costo": 600.00},
 
     2: {"nombre": "Diseño de SW", "fecha": "2024-12-10", "hora": "10:00 AM", "duracion": "3 horas","lugar": "AV-1822", "capacidad": 25, "costo": 700.00},
