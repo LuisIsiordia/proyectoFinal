@@ -28,7 +28,7 @@ def menu():
    if resp=='1':
         talleres.agregarTalleres()
    elif resp=='2':
-        talleres.actualizarTalleres()
+        talleres.bajaTalleres()
    elif resp=='3':        
         talleres.actualizarTalleres()
    elif resp=='4':
