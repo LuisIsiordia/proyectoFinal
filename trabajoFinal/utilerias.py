@@ -92,8 +92,8 @@ def ordenamientoTalleres(resp):
         print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
         print(f"Total de Talleres:{totalTalleres}")
         
-        resp=input("ingrese 1 para volver al menu:").upper()
-        if resp == "1":
+        resp=input("Presione enter para volver al menu:").upper()
+        if resp == "":
             import menu
             menu.menu()
 
@@ -139,3 +139,7 @@ def ordenamientoTalleres(resp):
         # Total de talleres
         print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
         print(f"Total de Talleres:{totalTalleres}")
+
+def limpiarPantalla():
+    import os
+    os.system('cls' if os.name == 'nt' else 'clear')

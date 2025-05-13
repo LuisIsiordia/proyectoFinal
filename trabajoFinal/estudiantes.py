@@ -1,6 +1,7 @@
 import datos
-
+import utilerias
 def estudiantes():
+    utilerias.limpiarPantalla()
     totalEstudiantes=0
     headers = ["Folio", "Nombre", "Correo", "Teléfono", "Exento"]
 
@@ -27,7 +28,7 @@ def estudiantes():
     print("-"*90)
     print("estudiantes inscritos:",totalEstudiantes)
     
-    resp=input("ingrese 1 para volver al menu:").upper()
-    if resp == "1":
+    resp=input("Presione enter para volver al menu:").upper()
+    if resp == "":
         import menu
         menu.menu()

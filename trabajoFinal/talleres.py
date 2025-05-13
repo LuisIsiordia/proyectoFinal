@@ -3,6 +3,7 @@ import utilerias
 
 
 def agregarTalleres():
+  utilerias.limpiarPantalla()
   while True:
         try:
             idtaller = int(input("ID del Taller: "))
@@ -69,4 +70,5 @@ def bajaTalleres():
   print("opcion para dar de baja talleres")
  
 def mostrarListado(resp):
-    utilerias.ordenamientoTalleres(resp)
+  utilerias.limpiarPantalla()
+  utilerias.ordenamientoTalleres(resp)

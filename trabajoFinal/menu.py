@@ -9,6 +9,7 @@ import estudiantes
 import inscripciones
 import utilerias
 def menu():
+ utilerias.limpiarPantalla()
  while True:
    print("-"*18,"MENU PRINCIPAL","-"*18)
    print("\n 1.Agregar un nuevo taller al catalogo\n",
