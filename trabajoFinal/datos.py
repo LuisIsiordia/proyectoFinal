@@ -46,3 +46,7 @@ estudiantes = [
     (66197, "Catalina Mungaro Velez", "caty.m.v@gmail.com", "6441767676", False),
 
 ]
+inscripciones = [
+
+
+]

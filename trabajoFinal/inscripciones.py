@@ -1,6 +1,5 @@
 import utilerias
-from datos import talleres
-from datos import estudiantes
+from datos import talleres, estudiantes, inscripciones
 from datetime import date
 inscripciones=[]
 
@@ -33,24 +32,25 @@ def registroInscripcionTaller(resp):
     ConfirmarRegistro = input("¿Confirmar el registro? (S/N): ").upper()
     utilerias.validarSiNo((ConfirmarRegistro))
     if ConfirmarRegistro == "S":
-        inscripciones=[]
         if inscripciones:
             folio = inscripciones[-1]['folio'] + 1
         else:
             folio = 1
-        inscripciones = [folio, fechaInscripcion, idEstudiante]
+        inscripcion = (folio, fechaInscripcion, idEstudiante)
+        inscripciones.append(inscripcion)
     if ConfirmarRegistro == "N":
         registroInscripcionTaller(resp)
 
-    HacerOtroRegistro = input("¿Confirmar el registro? (S/N): ").upper()
+    HacerOtroRegistro = input("¿Continuar con otra inscripción a un taller (S/N)?: ").upper()
     utilerias.validarSiNo((HacerOtroRegistro))
     if HacerOtroRegistro == "S":
         registroInscripcionTaller(resp)
     if HacerOtroRegistro == "N":
+        import menu
         menu.menu()
 
 def cancelarInscripcionFolio():
     print("cancelar la inscripcion de un alumno mediante su folio")
     
 def listadoInscripcionesTaller():
-    print("listado de inscripciones en los talleres")
+ print(inscripciones)
