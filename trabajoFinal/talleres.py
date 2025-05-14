@@ -42,7 +42,7 @@ def agregarTalleres():
   )
   print("-"*53)
   respuestaAgregar = input("¿Confirmar el registro? (S/N): ").upper()
-  utilerias.validarAgregar(respuestaAgregar)
+  utilerias.validarSiNo(respuestaAgregar)
   if respuestaAgregar == "N":
     agregarTalleres()
   elif respuestaAgregar == "S":
@@ -58,7 +58,7 @@ def agregarTalleres():
 
   utilerias.ordenamientoTalleres(respuestaAgregar)
   respuestaAñadir = input("¿Quiere añadir otro taller?: ").upper()
-  utilerias.validarAñadir(respuestaAñadir)
+  utilerias.validarSiNo(respuestaAñadir)
   if respuestaAñadir == "S":
     agregarTalleres()
   elif respuestaAñadir == "N":
