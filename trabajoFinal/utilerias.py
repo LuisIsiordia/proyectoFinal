@@ -1,6 +1,9 @@
 from datos import talleres
 #Validación para agregar un taller
-
+def limpiarPantalla():
+    import os
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
 def validarAgregar(respuestaAgregar):
     while respuestaAgregar != "S" and respuestaAgregar != "N":
         print("Tipo de respues invalida escoja solo entre estos dos caracter ('S' o 'N')")
@@ -140,6 +143,3 @@ def ordenamientoTalleres(resp):
         print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
         print(f"Total de Talleres:{totalTalleres}")
 
-def limpiarPantalla():
-    import os
-    os.system('cls' if os.name == 'nt' else 'clear')
