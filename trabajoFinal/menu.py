@@ -34,7 +34,7 @@ def menu():
    elif resp=='4':
         talleres.mostrarListado(resp)
    elif resp=='5':
-        inscripciones.registroInscripcionTaller()
+        inscripciones.registroInscripcionTaller(resp)
    elif resp=='6':
         inscripciones.cancelarInscripcionFolio()
    elif resp=='7':

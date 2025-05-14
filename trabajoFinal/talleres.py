@@ -3,7 +3,6 @@ import utilerias
 
 
 def agregarTalleres():
-  utilerias.limpiarPantalla()
   while True:
         try:
             idtaller = int(input("ID del Taller: "))
@@ -11,6 +10,9 @@ def agregarTalleres():
         except ValueError:
             print("Tipo de dato incorrecto, ingrese un número")
             continue
+  if idtaller < 0:
+     print("Tipo de ID invalido escoga otro valor")   
+     agregarTalleres() 
   for id in talleres:
     if idtaller == id:
       print("Ya hay un taller con ese ID \npor favor seleccione otro número\n ")
@@ -70,5 +72,4 @@ def bajaTalleres():
   print("opcion para dar de baja talleres")
  
 def mostrarListado(resp):
-  utilerias.limpiarPantalla()
-  utilerias.ordenamientoTalleres(resp)
+    utilerias.ordenamientoTalleres(resp)
