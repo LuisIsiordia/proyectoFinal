@@ -44,9 +44,7 @@ estudiantes = [
     (66178, "Pedro Hernandez Silva", "pedrosilva2@gmail.com", "6441121233", False),
 
     (66197, "Catalina Mungaro Velez", "caty.m.v@gmail.com", "6441767676", False),
-
 ]
+
 inscripcionesTupla = [
-
-
 ]

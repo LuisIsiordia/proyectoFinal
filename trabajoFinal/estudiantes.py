@@ -1,23 +1,24 @@
 import datos
 import utilerias
+
 def estudiantes():
-    utilerias.limpiarPantalla()
+
     totalEstudiantes=0
-    headers = ["Folio", "Nombre", "Correo", "Teléfono", "Exento"]
+    headers = ["ID", "Nombre", "Correo", "Teléfono", "Exento"]
 
     # Asignar anchos fijos a las columnas 
-    anchoFolio = 6
+    anchoID = 6
     anchoNombre = 25
     anchoCorreo = 30
     anchoTel = 12
     anchoExentos = 7
 
     # Formato de impresión
-    formato = f"{{:<{anchoFolio}}}  {{:<{anchoNombre}}}  {{:<{anchoCorreo}}}  {{:<{anchoTel}}}  {{:<{anchoExentos}}}"
+    formato = f"{{:<{anchoID}}}  {{:<{anchoNombre}}}  {{:<{anchoCorreo}}}  {{:<{anchoTel}}}  {{:<{anchoExentos}}}"
 
     # Imprimir encabezado
     print(formato.format(*headers))
-    print("-" * (anchoFolio + anchoNombre + anchoCorreo + anchoTel + anchoExentos + 10))
+    print("-" * (anchoID + anchoNombre + anchoCorreo + anchoTel + anchoExentos + 10))
 
     # Imprimir filas con "Sí"/"No"
     for est in datos.estudiantes:
@@ -30,5 +31,5 @@ def estudiantes():
     
     resp=input("Presione enter para volver al menu:").upper()
     if resp == "":
-        import menu
-        menu.menu()
+       utilerias.llamarMenu()
+       
