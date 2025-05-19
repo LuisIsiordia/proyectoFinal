@@ -2,7 +2,9 @@ import datos
 import utilerias
 
 def estudiantes():
-
+    print("-"*90)
+    print("-"*33,"Listado de Estudiantes","-"*33)
+    print("-"*90)
     totalEstudiantes=0
     headers = ["ID", "Nombre", "Correo", "Teléfono", "Exento"]
 
