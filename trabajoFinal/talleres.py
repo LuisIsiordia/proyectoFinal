@@ -1,4 +1,5 @@
-from datos import talleres
+from datos import talleres,inscripcionesTupla
+import inscripciones
 import utilerias
 
 
@@ -11,7 +12,7 @@ def agregarTalleres():
             print("Tipo de dato incorrecto, ingrese un número")
             continue
   if idtaller < 0:
-     print("Tipo de ID invalido escoga otro valor")   
+     print("ID invalido escoga otro valor")   
      agregarTalleres() 
   for id in talleres:
     if idtaller == id:
@@ -65,11 +66,50 @@ def agregarTalleres():
     import menu
     menu.menu()
 
-def actualizarTalleres():
-  print("opcion para actualizar talleres")
+def bajaTalleres(resp):
+    utilerias.ordenamientoTalleres(resp)
+    while True:
+        try:
+          idtaller = int(input("Ingrese el ID del Taller (valor negativo para ir al Menú): "))
 
-def bajaTalleres():
-  print("opcion para dar de baja talleres")
+          if idtaller < 0:
+            import menu
+            menu.menu()
+          break
+        except ValueError:
+            print("Tipo de dato incorrecto, ingrese un número")
+            continue
+          
+    if idtaller not in talleres:
+      print("El taller que busca dar de baja no existe en el catalogo.\n")
+      bajaTalleres(resp)
+    if idtaller in talleres:
+      utilerias.mostrarTaller(idtaller)
+      eliminar = input("Confirmar baja del taller?: (S/N): ").upper()
+      if eliminar == "S":
+          if any(insc[3] == idtaller for insc in inscripcionesTupla):
+            borrarInsc = input("Hay inscripciones a ese taller y requiere primero cancelar las inscripciones del taller,"
+                              "\nantes de poder borrar el taller."
+                              "\n¿Desea cancelar las inscripciones?"
+                              "\nEn caso de que no, volvera al menu principal (S/N): ").upper()
+            if borrarInsc == "S":
+              inscripciones.cancelarInscripcionIDtaller(idtaller)
+              eliminar = input("Inscripciones dadas de baja ¿Continuar baja de taller? (S/N): ").upper()
+              if eliminar == "S":
+                del talleres [idtaller]
+                utilerias.llamarMenu()
+              if eliminar == "N":
+                utilerias.llamarMenu()
+            if borrarInsc == "N":
+                utilerias.llamarMenu()
+          del talleres [idtaller]
+          utilerias.llamarMenu()
+      if eliminar == "N":
+        bajaTalleres(resp)
+
+
+def actualizarTalleres(resp):
+    utilerias.ordenamientoTalleres(resp)
  
 def mostrarListado(resp):
     utilerias.ordenamientoTalleres(resp)

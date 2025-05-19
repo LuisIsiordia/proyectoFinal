@@ -1,7 +1,6 @@
 import utilerias
-from datos import talleres, estudiantes, inscripciones
+from datos import talleres, estudiantes, inscripcionesTupla
 from datetime import date
-inscripciones=[]
 
 def registroInscripcionTaller(resp):
     utilerias.limpiarPantalla()
@@ -14,7 +13,7 @@ def registroInscripcionTaller(resp):
             import menu
             menu.menu()
         if idTaller in talleres:
-            #Mostrar taller aca
+            utilerias.mostrarTaller(idTaller)
             break
         else:
             print("\nNo hay ningún taller con ese ID, seleccione otra opción")
@@ -25,24 +24,28 @@ def registroInscripcionTaller(resp):
             idEstudiante = int(input("\nIngrese el ID del estudiate que se va a inscribir: "))
 
             if any(idEstudiante == ID[0] for ID in estudiantes):
-                #Mostrar estudiante aca con todos sus datos excepto el ID
+
                 break
             else:
                 print("\nNo hay ningún estudiante con ese ID, seleccione otra opción")
     ConfirmarRegistro = input("¿Confirmar el registro? (S/N): ").upper()
     utilerias.validarSiNo((ConfirmarRegistro))
     if ConfirmarRegistro == "S":
-        if inscripciones:
-            folio = inscripciones[-1]['folio'] + 1
+        if inscripcionesTupla:
+            folio = inscripcionesTupla[-1][0] + 1
         else:
             folio = 1
-        inscripcion = (folio, fechaInscripcion, idEstudiante)
-        inscripciones.append(inscripcion)
+        inscripcion = (folio, fechaInscripcion, idEstudiante, idTaller)
+        inscripcionesTupla.append(inscripcion)
+    utilerias.mostrarTaller(idTaller)
+    
     if ConfirmarRegistro == "N":
-        registroInscripcionTaller(resp)
+        HacerOtroRegistro = input("¿Continuar con otra inscripción a un taller (S/N)?: ").upper()
 
     HacerOtroRegistro = input("¿Continuar con otra inscripción a un taller (S/N)?: ").upper()
-    utilerias.validarSiNo((HacerOtroRegistro))
+    while HacerOtroRegistro != "S" and HacerOtroRegistro != "N":
+        print("Tipo de respuesta invalida escoja solo entre estos dos caracter ('S' o 'N')")
+        HacerOtroRegistro = input("¿Continuar con otra inscripción a un taller (S/N)?: ").upper()
     if HacerOtroRegistro == "S":
         registroInscripcionTaller(resp)
     if HacerOtroRegistro == "N":
@@ -50,7 +53,14 @@ def registroInscripcionTaller(resp):
         menu.menu()
 
 def cancelarInscripcionFolio():
-    print("cancelar la inscripcion de un alumno mediante su folio")
+    folio = int(input("Seleccione un folio de una inscripción a cancelar: "))
     
+    inscripcionesTupla = [i for i in inscripcionesTupla if i[0] != folio]
+    
+def cancelarInscripcionIDtaller(idtaller):
+    global inscripcionesTupla
+    inscripcionesTupla = [i for i in inscripcionesTupla if i[3] != idtaller]
+
 def listadoInscripcionesTaller():
- print(inscripciones)
+ print(inscripcionesTupla)
+
