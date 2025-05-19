@@ -1,9 +1,9 @@
-
 from datos import talleres
+
 #Validación para agregar un taller
 def validarSiNo(respuestaAgregar):
     while respuestaAgregar != "S" and respuestaAgregar != "N":
-        print("Tipo de respues invalida escoja solo entre estos dos caracter ('S' o 'N')")
+        print("Tipo de respuesta invalida escoja solo entre estos dos caracter ('S' o 'N')")
         respuestaAgregar = input("¿Confirmar el registro? (S/N): ").upper()
     return respuestaAgregar
 
@@ -137,7 +137,7 @@ def ordenamientoTalleres(resp):
         # Total de talleres
         print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
         print(f"Total de Talleres:{totalTalleres}")
-        
+
 def mostrarTaller(idtaller):
      # Encabezados de la tabla
         headers = ["ID", "Nombre", "Fecha", "Hora", "Duración", "Lugar", "Capacidad", "Costo"]
@@ -173,9 +173,7 @@ def mostrarTaller(idtaller):
                 str(dato["capacidad"]),
                 f"${dato['costo']:.2f}"
             ))
-        print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))        
-        
+        print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
 def limpiarPantalla():
     import os
     os.system('cls' if os.name == 'nt' else 'clear')
-

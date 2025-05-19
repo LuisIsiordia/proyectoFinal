@@ -2,6 +2,7 @@ from datos import talleres,inscripcionesTupla
 import inscripciones
 import utilerias
 
+
 def agregarTalleres():
   utilerias.limpiarPantalla()
   print("-"*51)
@@ -14,7 +15,7 @@ def agregarTalleres():
             print("Tipo de dato incorrecto, ingrese un número")
             continue
   if idtaller < 0:
-     print("Tipo de ID invalido escoga otro valor")   
+     print("ID invalido escoga otro valor")   
      agregarTalleres() 
   for id in talleres:
     if idtaller == id:
@@ -65,10 +66,8 @@ def agregarTalleres():
   if respuestaAñadir == "S":
     agregarTalleres()
   elif respuestaAñadir == "N":
-    utilerias.llamarMenu()
-
-def actualizarTalleres(resp):
-  utilerias.ordenamientoTalleres(resp)
+    import menu
+    menu.menu()
 
 def bajaTalleres(resp):
     utilerias.ordenamientoTalleres(resp)
@@ -111,6 +110,9 @@ def bajaTalleres(resp):
       if eliminar == "N":
         bajaTalleres(resp)
 
+
+def actualizarTalleres(resp):
+    utilerias.ordenamientoTalleres(resp)
  
 def mostrarListado(resp):
     utilerias.ordenamientoTalleres(resp)

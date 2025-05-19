@@ -1,11 +1,8 @@
 import utilerias
 from datos import talleres, estudiantes, inscripcionesTupla
-
 from datetime import date
 
-ultimo_folio=0
 def registroInscripcionTaller(resp):
-    global ultimo_folio
     utilerias.limpiarPantalla()
     utilerias.ordenamientoTalleres(resp)
     #Selección de taller
@@ -13,14 +10,14 @@ def registroInscripcionTaller(resp):
         idTaller = int(input("\nIngrese el ID del taller al que quiere hacer una inscripción"
                              "\nEn caso de querer cancelar la inscripción ingrese un valor negativo (-1,-2, etc): "))
         if idTaller < 0:
-            utilerias.llamarMenu()
+            import menu
+            menu.menu()
         if idTaller in talleres:
             utilerias.mostrarTaller(idTaller)
             break
         else:
             print("\nNo hay ningún taller con ese ID, seleccione otra opción")
-    #Fecha de la inscripción
-    fechaInscripcion = date.today().isoformat()
+
     #Selección de estudiante a inscribir
     while True:
             idEstudiante = int(input("\nIngrese el ID del estudiate que se va a inscribir: "))
@@ -29,56 +26,70 @@ def registroInscripcionTaller(resp):
                 if estudiante[0] == idEstudiante:
                     estudianteExistente = estudiante
                     break
-            if estudianteExistente:
-                print("\n----------------------------Datos de la inscripción-----------------------")
-        
-                # Generar folio automático
-                ultimo_folio += 1
-                folio = f"{ultimo_folio:06d}"
-                print(f"Folio: {folio}")
-                print(f"fecha inscripcion: {fechaInscripcion}")
-                print(f"ID: {estudianteExistente[0]}")
-                # Mostrar datos del estudiante
+            if any(idEstudiante == ID[0] for ID in estudiantes):
                 print("\n----------------------------Datos del estudiante--------------------------")
                 print(f"Nombre: {estudianteExistente[1]}")
                 print(f"Correo: {estudianteExistente[2]}")
                 print(f"Teléfono: {estudianteExistente[3]}")
                 print(f"exento: {'Sí' if estudianteExistente[4] else 'No'}")
-                # Mostrar detalles del cobro
-                print("\n----------------------------Detalles del cobro---------------------------")
-                if estudianteExistente[4]:
-                    print("El estudiante está exento de cobro\n")
-                else:
-                    print(f"Se cobrará: ${talleres[idTaller]['costo']:.2f}\n")
                 break
             else:
                 print("\nNo hay ningún estudiante con ese ID, seleccione otra opción")
-    
-    #formato desplegado para mejor visualizacion
+
     ConfirmarRegistro = input("¿Confirmar el registro? (S/N): ").upper()
     utilerias.validarSiNo((ConfirmarRegistro))
     if ConfirmarRegistro == "S":
-            if inscripcionesTupla:
-                folio = inscripcionesTupla[-1][0] + 1
-            else:
-                folio = 1
-            inscripcion = (folio, fechaInscripcion, idEstudiante,idTaller)
-            inscripcionesTupla.append(inscripcion)
+        #Fecha de la inscripción
+        fechaInscripcion = date.today().isoformat()
+        #Generar folio
+        if inscripcionesTupla:
+            folio = inscripcionesTupla[-1][0] + 1
+        else:
+            folio = 1
+        inscripcion = (folio, fechaInscripcion, idEstudiante, idTaller)
+        inscripcionesTupla.append(inscripcion)
+    utilerias.mostrarTaller(idTaller)
+    print("\n----------------------------Datos de la inscripción-----------------------")
+
+    print(f"Folio: {folio}")
+    print(f"fecha inscripcion: {fechaInscripcion}")
+    print(f"ID: {estudianteExistente[0]}")
+    # Mostrar datos del estudiante
+    print("\n----------------------------Datos del estudiante--------------------------")
+    print(f"Nombre: {estudianteExistente[1]}")
+    print(f"Correo: {estudianteExistente[2]}")
+    print(f"Teléfono: {estudianteExistente[3]}")
+    print(f"exento: {'Sí' if estudianteExistente[4] else 'No'}")
+    # Mostrar detalles del cobro
+    print("\n----------------------------Detalles del cobro---------------------------")
+    if estudianteExistente[4]:
+        print("El estudiante está exento de cobro\n")
+    else:
+        print(f"Se cobrará: ${talleres[idTaller]['costo']:.2f}\n")
+    
     if ConfirmarRegistro == "N":
-            registroInscripcionTaller(resp)
+        HacerOtroRegistro = input("¿Continuar con otra inscripción a un taller (S/N)?: ").upper()
 
     HacerOtroRegistro = input("¿Continuar con otra inscripción a un taller (S/N)?: ").upper()
-    utilerias.validarSiNo((HacerOtroRegistro))
+    while HacerOtroRegistro != "S" and HacerOtroRegistro != "N":
+        print("Tipo de respuesta invalida escoja solo entre estos dos caracter ('S' o 'N')")
+        HacerOtroRegistro = input("¿Continuar con otra inscripción a un taller (S/N)?: ").upper()
     if HacerOtroRegistro == "S":
         registroInscripcionTaller(resp)
     if HacerOtroRegistro == "N":
-        utilerias.llamarMenu()
-
+        import menu
+        menu.menu()
 
 def cancelarInscripcionFolio():
-    print("cancelar la inscripcion de un alumno mediante su folio")
- 
+    global inscripcionesTupla
+    folio = int(input("Seleccione un folio de una inscripción a cancelar: "))
     
+    inscripcionesTupla = [i for i in inscripcionesTupla if i[0] != folio]
+    
+def cancelarInscripcionIDtaller(idtaller):
+    global inscripcionesTupla
+    inscripcionesTupla = [i for i in inscripcionesTupla if i[3] != idtaller]
+
 def listadoInscripcionesTaller():
     print("-"*51)
     print("Listado de inscripciones por taller")
@@ -145,3 +156,4 @@ def listadoInscripcionesTaller():
         resp=input("Presione enter para volver al menu:").upper()
         if resp == "":
             utilerias.llamarMenu()
+
