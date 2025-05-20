@@ -82,10 +82,31 @@ def registroInscripcionTaller(resp):
 
 def cancelarInscripcionFolio():
     global inscripcionesTupla
-    folio = int(input("Seleccione un folio de una inscripción a cancelar: "))
-    
-    inscripcionesTupla = [i for i in inscripcionesTupla if i[0] != folio]
-    
+    #Mostrar todas las inscripciones ordenadas por folio
+    while True:
+        folio = int(input("\nSeleccione un folio de una inscripción a cancelar"
+                          "\nEn caso de querer volver al menu ingrese un valor negativo (-1,-2, etc): "))
+        if folio < 0:
+            utilerias.llamarMenu()
+        if any(folio == folioTupla[0] for folioTupla in inscripcionesTupla):  
+            #Mostrar los datos de la inscripción a cancelar
+            cancelar = input("¿Confirmar que desea eliminar la inscripción? (S/N): ").upper()
+            utilerias.validarSiNo()
+            if cancelar == "S":
+                inscripcionesTupla = [i for i in inscripcionesTupla if i[0] != folio]
+                break
+            if cancelar == "N":
+                cancelarInscripcionFolio()
+        else:
+            print("\nNo hay ninguna inscripcón con ese folio, seleccione otra opción")
+        
+    #Despues de la cancelación mostrar el listado de nuevo, confirmando su cancelación
+    respuestaCancelar = input("¿Quiere cancelar otra inscripción? (S/N): ").upper()
+    utilerias.validarSiNo(respuestaCancelar)
+    if respuestaCancelar == "S":
+        cancelarInscripcionFolio()
+    elif respuestaCancelar == "N":
+        utilerias.llamarMenu
 def cancelarInscripcionIDtaller(idtaller):
     global inscripcionesTupla
     inscripcionesTupla = [i for i in inscripcionesTupla if i[3] != idtaller]

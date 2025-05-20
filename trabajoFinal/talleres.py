@@ -66,8 +66,7 @@ def agregarTalleres():
   if respuestaAñadir == "S":
     agregarTalleres()
   elif respuestaAñadir == "N":
-    import menu
-    menu.menu()
+    utilerias.llamarMenu
 
 def bajaTalleres(resp):
     utilerias.ordenamientoTalleres(resp)
@@ -113,6 +112,72 @@ def bajaTalleres(resp):
 
 def actualizarTalleres(resp):
     utilerias.ordenamientoTalleres(resp)
- 
+    while True:
+        idTaller = int(input("\nIngrese el ID del Taller (valor negativo para ir al Menú):"))
+
+        if idTaller < 0:
+          utilerias.llamarMenu()
+        if idTaller in talleres:
+          utilerias.mostrarTaller(idTaller)
+          taller = talleres[idTaller]
+          break
+        else:
+          print("\nNo hay ningún taller con ese ID, seleccione otra opción")
+    print("Presione Enter si no desea actualizar nada")
+    nuevoNombre = input("Nuevo nombre del taller: ")
+    nuevaFecha = input("Nueva Fecha de inicio: ")
+    nuevaHora = input("Nueva Hora de inicio: ")
+    while True:
+          try:
+              nuevaDuracion = int(input("Nueva duración del taller en horas: "))
+              break
+          except ValueError:
+              print("\nTipo de dato incorrecto, ingrese un número")
+              continue
+    nuevoLugar = input("Nueva Aula del taller: ")
+    while True:
+      try:
+          nuevaCapacidad = int(input("Nueva capacidad de alumnos en el taller: "))
+          break
+      except ValueError:
+          print("\nTipo de dato incorrecto, ingrese un número")
+          continue
+    while True:
+      try:
+          nuevoCosto = float(input("Nuevo Costo del taller: "))
+          break
+      except ValueError:
+          print("\nTipo de dato incorrecto, ingrese un número")
+          continue
+    #Mostrar el taller con datos actualizados pero sin realmente actualizar todavia solo sera como un muestreo
+
+    actualizar = input("¿Confirmar el registro? (S/N): ").upper()
+    utilerias.validarSiNo(actualizar)
+    if actualizar == "S":
+      if nuevoNombre != "":
+          taller['nombre'] = nuevoNombre
+      if nuevaFecha != "":
+          taller['fecha'] = nuevaFecha
+      if nuevaHora != "":
+          taller['hora'] = nuevaHora
+      if nuevaDuracion != "":
+          taller['duracion'] = int(nuevaDuracion)
+      if nuevoLugar != "":
+          taller['lugar'] = nuevoLugar
+      if nuevaCapacidad != "":
+          taller['capacidad'] = int(nuevaCapacidad)
+      if nuevoCosto != "":
+          taller['costo']=float(nuevoCosto)
+      utilerias.ordenamientoTalleres(resp)
+
+    if actualizar == "N":
+      otroActualizar = input("¿Continuar con la actualización de otro Taller? (S/N): ").upper()
+      utilerias.validarSiNo(otroActualizar)
+    otroActualizar = input("¿Continuar con la actualización de otro Taller? (S/N): ").upper()
+    utilerias.validarSiNo(otroActualizar)
+    if otroActualizar == "S":
+       actualizarTalleres(resp)
+    if otroActualizar == "N":
+       utilerias.llamarMenu()
 def mostrarListado(resp):
     utilerias.ordenamientoTalleres(resp)

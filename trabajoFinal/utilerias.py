@@ -1,11 +1,11 @@
 from datos import talleres
 
 #Validación para agregar un taller
-def validarSiNo(respuestaAgregar):
-    while respuestaAgregar != "S" and respuestaAgregar != "N":
+def validarSiNo(respuestaValidar):
+    while respuestaValidar != "S" and respuestaValidar != "N":
         print("Tipo de respuesta invalida escoja solo entre estos dos caracter ('S' o 'N')")
-        respuestaAgregar = input("¿Confirmar el registro? (S/N): ").upper()
-    return respuestaAgregar
+        respuestaValidar = input("¿Confirmar? (S/N): ").upper()
+    return respuestaValidar
 
 def llamarMenu():
     import menu
