@@ -22,10 +22,27 @@ def registroInscripcionTaller(resp):
     while True:
             idEstudiante = int(input("\nIngrese el ID del estudiate que se va a inscribir: "))
             estudianteExistente = None
+
+            #Recorrido de la tupla para encotrar el ID y guardarlo para uso posterior
             for estudiante in estudiantes:
                 if estudiante[0] == idEstudiante:
                     estudianteExistente = estudiante
                     break
+            #Verificación de si el estudiante ya esta inscrito al taller 
+            while True:
+                inscrito = any(i[2] == idEstudiante and i[3] == idTaller for i in inscripcionesTupla)
+                if inscrito:
+                    print("\nEl estudiante ya está inscrito en este taller")
+                    empiezo = input("Quiere seleccionar otro taller (S/N): ").upper()
+                    utilerias.validarSiNo(empiezo)
+                    if empiezo == "S":
+                        registroInscripcionTaller(resp)
+                    if empiezo == "N":
+                        utilerias.llamarMenu()
+                else:
+                    break    
+
+            #Mostrado de los datos del estudiante
             if any(idEstudiante == ID[0] for ID in estudiantes):
                 print("\n----------------------------Datos del estudiante--------------------------")
                 print(f"Nombre: {estudianteExistente[1]}")
@@ -91,7 +108,7 @@ def cancelarInscripcionFolio():
         if any(folio == folioTupla[0] for folioTupla in inscripcionesTupla):  
             #Mostrar los datos de la inscripción a cancelar
             cancelar = input("¿Confirmar que desea eliminar la inscripción? (S/N): ").upper()
-            utilerias.validarSiNo()
+            utilerias.validarSiNo(cancelar)
             if cancelar == "S":
                 inscripcionesTupla = [i for i in inscripcionesTupla if i[0] != folio]
                 break
