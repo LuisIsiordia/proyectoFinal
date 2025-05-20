@@ -173,6 +173,10 @@ def actualizarTalleres(resp):
     if actualizar == "N":
       otroActualizar = input("¿Continuar con la actualización de otro Taller? (S/N): ").upper()
       utilerias.validarSiNo(otroActualizar)
+      if otroActualizar == "S":
+        actualizarTalleres(resp)
+      if otroActualizar == "N":
+        utilerias.llamarMenu()     
     otroActualizar = input("¿Continuar con la actualización de otro Taller? (S/N): ").upper()
     utilerias.validarSiNo(otroActualizar)
     if otroActualizar == "S":
