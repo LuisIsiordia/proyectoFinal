@@ -1,4 +1,4 @@
-from datos import talleres,inscripcionesTupla
+from datos import talleres,inscripcionesTupla,estudiantes
 import inscripciones
 import utilerias
 
@@ -87,6 +87,25 @@ def bajaTalleres(resp):
       bajaTalleres(resp)
     if idtaller in talleres:
       utilerias.mostrarTaller(idtaller)
+      # Verificar inscripciones existentes
+      inscripciones_taller = [i for i in inscripcionesTupla if i[3] == idtaller]
+
+      if inscripciones_taller:
+          print("\nInscripciones registradas")
+          print("-"*80)
+          print(f"{'Folio':<8}{'Tipo':<10}{'Fecha':<12}{'ID estudiante':<15}{'Nombre estudiante':<25}")
+          print("-"*80)
+          
+          for insc in inscripciones_taller:
+              try:
+                  folio, fecha, idEstudiante, _ = insc
+                  estudiante = next((e for e in estudiantes if e[0] == idEstudiante), None)
+                  tipo = "Exenta" if estudiante and estudiante[4] else "General"
+                  print(f"{folio:<8}{tipo:<10}{fecha:<12}{idEstudiante:<15}{estudiante[1] if estudiante else 'Desconocido':<25}")
+              except (ValueError, TypeError) as e:
+                  print(f"Error procesando inscripción: {insc} - {str(e)}")
+          
+          print("-"*80)
       eliminar = input("Confirmar baja del taller?: (S/N): ").upper()
       if eliminar == "S":
           if any(insc[3] == idtaller for insc in inscripcionesTupla):
@@ -99,13 +118,20 @@ def bajaTalleres(resp):
               eliminar = input("Inscripciones dadas de baja ¿Continuar baja de taller? (S/N): ").upper()
               if eliminar == "S":
                 del talleres [idtaller]
-                utilerias.llamarMenu()
+                utilerias.ordenamientoTalleres(resp)
+                resp=input("Presione enter para volver al menu:").upper()
+                if resp == "":
+                    utilerias.llamarMenu()
               if eliminar == "N":
                 utilerias.llamarMenu()
             if borrarInsc == "N":
                 utilerias.llamarMenu()
           del talleres [idtaller]
-          utilerias.llamarMenu()
+          utilerias.ordenamientoTalleres(resp)
+          resp=input("Presione enter para volver al menu:").upper()
+          if resp == "":
+              utilerias.llamarMenu()
+
       if eliminar == "N":
         bajaTalleres(resp)
 
@@ -129,7 +155,7 @@ def actualizarTalleres(resp):
     nuevaHora = input("Nueva Hora de inicio: ")
     while True:
           try:
-              nuevaDuracion = int(input("Nueva duración del taller en horas: "))
+              nuevaDuracion = int(input(f"Nueva duración del taller en horas: "))
               break
           except ValueError:
               print("\nTipo de dato incorrecto, ingrese un número")
@@ -143,15 +169,29 @@ def actualizarTalleres(resp):
           print("\nTipo de dato incorrecto, ingrese un número")
           continue
     while True:
+      nuevoCosto = input("Nuevo Costo del taller: ")
+      if nuevoCosto == "":  
+            nuevoCosto = taller['costo']
+            break
       try:
-          nuevoCosto = float(input("Nuevo Costo del taller: "))
-          break
+            nuevoCosto = float(nuevoCosto)
+            break     
       except ValueError:
           print("\nTipo de dato incorrecto, ingrese un número")
           continue
-    #Mostrar el taller con datos actualizados pero sin realmente actualizar todavia solo sera como un muestreo
-
-    actualizar = input("¿Confirmar el registro? (S/N): ").upper()
+    # Mostrar cambios
+    print("\nInformación actualizada del taller")
+    print("-"*50)
+    print(f"Nombre: {taller['nombre']} -> {nuevoNombre}")
+    print(f"Fecha: {taller['fecha']} -> {nuevaFecha}")
+    print(f"Hora: {taller['hora']} -> {nuevaHora}")
+    print(f"Duración: {taller['duracion']} -> {nuevaDuracion} horas")
+    print(f"Lugar: {taller['lugar']} -> {nuevoLugar}")
+    print(f"Capacidad: {taller['capacidad']} -> {nuevaCapacidad}")
+    print(f"Costo: ${taller['costo']:.2f} -> ${nuevoCosto:.2f}")
+    print("-"*50)
+    
+    actualizar = input("\n¿Confirmar la actualización? (S/N): ").upper()
     utilerias.validarSiNo(actualizar)
     if actualizar == "S":
       if nuevoNombre != "":
@@ -161,7 +201,7 @@ def actualizarTalleres(resp):
       if nuevaHora != "":
           taller['hora'] = nuevaHora
       if nuevaDuracion != "":
-          taller['duracion'] = int(nuevaDuracion)
+          taller['duracion'] = f"{nuevaDuracion} horas"
       if nuevoLugar != "":
           taller['lugar'] = nuevoLugar
       if nuevaCapacidad != "":
@@ -169,7 +209,6 @@ def actualizarTalleres(resp):
       if nuevoCosto != "":
           taller['costo']=float(nuevoCosto)
       utilerias.ordenamientoTalleres(resp)
-
     if actualizar == "N":
       otroActualizar = input("¿Continuar con la actualización de otro Taller? (S/N): ").upper()
       utilerias.validarSiNo(otroActualizar)
@@ -183,5 +222,7 @@ def actualizarTalleres(resp):
        actualizarTalleres(resp)
     if otroActualizar == "N":
        utilerias.llamarMenu()
+       
+    
 def mostrarListado(resp):
     utilerias.ordenamientoTalleres(resp)

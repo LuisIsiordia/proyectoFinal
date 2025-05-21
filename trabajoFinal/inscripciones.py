@@ -28,7 +28,7 @@ def registroInscripcionTaller(resp):
                 if estudiante[0] == idEstudiante:
                     estudianteExistente = estudiante
                     break
-            #Verificación de si el estudiante ya esta inscrito al taller 
+            #Verificación de si el estudiante ya esta inscrito al taller
             while True:
                 inscrito = any(i[2] == idEstudiante and i[3] == idTaller for i in inscripcionesTupla)
                 if inscrito:
@@ -100,13 +100,36 @@ def registroInscripcionTaller(resp):
 def cancelarInscripcionFolio():
     global inscripcionesTupla
     #Mostrar todas las inscripciones ordenadas por folio
+    utilerias.formatoListadoInsc()
+    for insc in inscripcionesTupla:
+        folio, fechaInscripcion, idEstudiante, idTaller = insc
+    # Buscar información del estudiante
+    estudiante = next((e for e in estudiantes if e[0] == idEstudiante), None)
+    # Buscar información del taller
+    taller = talleres.get(idTaller, {"nombre": "Taller Desconocido", "costo": 0})
+    
     while True:
         folio = int(input("\nSeleccione un folio de una inscripción a cancelar"
                           "\nEn caso de querer volver al menu ingrese un valor negativo (-1,-2, etc): "))
         if folio < 0:
             utilerias.llamarMenu()
         if any(folio == folioTupla[0] for folioTupla in inscripcionesTupla):  
-            #Mostrar los datos de la inscripción a cancelar
+            # Mostrar datos de la inscripción
+            print("\n----------------------------Datos de la inscripción-----------------------")
+            print(f"Folio: {folio:06d}")
+            print(f"Taller: {taller['nombre']}")
+            print(f"Fecha de la inscripción: {fechaInscripcion}")
+            print(f"ID del estudiante: {idEstudiante:011d}")
+            if estudiante:
+                print(f"Nombre: {estudiante[1]}")
+                print(f"Correo electrónico: {estudiante[2]}")
+                print(f"Teléfono: {estudiante[3]}")
+                print(f"¿Exento?: {'Sí' if estudiante[4] else 'No'}")
+            print("\n----------------------------Detalles del cobro---------------------------")
+            if estudiante and estudiante[4]:
+                print("El estudiante está exento de cobro.")
+            else:
+                print(f"Se cobrará: ${taller['costo']:.2f}")
             cancelar = input("¿Confirmar que desea eliminar la inscripción? (S/N): ").upper()
             utilerias.validarSiNo(cancelar)
             if cancelar == "S":
@@ -117,13 +140,29 @@ def cancelarInscripcionFolio():
         else:
             print("\nNo hay ninguna inscripcón con ese folio, seleccione otra opción")
         
-    #Despues de la cancelación mostrar el listado de nuevo, confirmando su cancelación
+     #cancelación confirmada mostrar el listado de nuevo
+    print("\nLista actualizada de inscripciones:")
+    print("-"*90)
+    print(f"{'Folio':<8}{'Taller':<20}{'ID Estudiante':<15}{'Nombre estudiante':<25}{'Costo':>10}")
+    print("-"*90)
+                
+    for insc in inscripcionesTupla:
+        folio, fechaInscripcion, idEstudiante, idTaller = insc
+        estudiante = next((e for e in estudiantes if e[0] == idEstudiante), None)
+        taller = talleres.get(idTaller, {"nombre": "Taller Desconocido", "costo": 0})
+        costo = "0.00" if estudiante and estudiante[4] else f"{taller['costo']:.2f}"
+        print(f"{folio:<8}{taller['nombre']:<20}{idEstudiante:<15}{estudiante[1] if estudiante else 'Desconocido':<25}${costo:>9}")
+                
+    print("-"*90)
+    print(f"Total de inscripciones: {len(inscripcionesTupla)}")
+    print("-"*90)
     respuestaCancelar = input("¿Quiere cancelar otra inscripción? (S/N): ").upper()
     utilerias.validarSiNo(respuestaCancelar)
     if respuestaCancelar == "S":
         cancelarInscripcionFolio()
     elif respuestaCancelar == "N":
         utilerias.llamarMenu
+        
 def cancelarInscripcionIDtaller(idtaller):
     global inscripcionesTupla
     inscripcionesTupla = [i for i in inscripcionesTupla if i[3] != idtaller]
@@ -131,7 +170,6 @@ def cancelarInscripcionIDtaller(idtaller):
 def listadoInscripcionesTaller():
     print("-"*51)
     print("Listado de inscripciones por taller")
-    # Preguntar por ordenamiento
     while True:
         ordenar = input("\n¿Desea un listado ordenado? (S/N): ").upper()
         orden = 'A'  # Por defecto ascendente
@@ -175,8 +213,8 @@ def listadoInscripcionesTaller():
         
         # Aplicar ordenamiento si se solicitó
         if ordenar == 'S':
-            reverse_order = (orden == 'D')
-            datos.sort(key=lambda x: x["Taller"], reverse=reverse_order)
+            reverseOrder = (orden == 'D')
+            datos.sort(key=lambda x: x["Taller"], reverse=reverseOrder)
         
         # Mostrar resultados
         print("\nListado de Inscripciones a Talleres")

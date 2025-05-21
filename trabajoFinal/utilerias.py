@@ -1,4 +1,5 @@
-from datos import talleres
+from datos import talleres,inscripcionesTupla,estudiantes
+import utilerias
 
 #Validación para agregar un taller
 def validarSiNo(respuestaValidar):
@@ -174,6 +175,50 @@ def mostrarTaller(idtaller):
                 f"${dato['costo']:.2f}"
             ))
         print("-" * (anchoID + anchoNombre + anchoFecha + anchoHora + anchoDuracion + anchoLugar + anchoCapacidad + anchoCosto + 15))
+        
+def formatoListadoInsc():
+        datos = []
+        for insc in inscripcionesTupla:
+            folio, fechaInscripcion, idEstudiante,idTaller = insc  # Desempaquetar tupla
+            # Buscar estudiante en la lista de tuplas
+            estudiante = None
+            for e in estudiantes:
+                if e[0] == idEstudiante:
+                    estudiante = e
+                    break
+            if estudiante is None:
+                # Si no lo encontró, usar valores por defecto
+                exento = False
+            else:
+
+                exento = estudiante[4]
+            taller = talleres.get(idTaller, {"nombre": "Taller Desconocido", "Costo": 0})
+            
+            costo = "0.00" if exento else f"{taller['costo']:.2f}"
+            
+            datos.append({
+                "Folio": folio,
+                "Taller": taller["nombre"],
+                "ID_Estudiante": idEstudiante,
+                "Nombre": estudiante[1],
+                "Costo": costo,
+                "Fecha": fechaInscripcion
+            })
+        # Mostrar resultados
+        print("\nListado de Inscripciones a Talleres")
+        print("-" * 90)
+        print(f"{'Folio':<8}{'Taller':<20}{'ID Estudiante':<15}{'Nombre':<25}{'Costo':>10}{'Fecha':>12}")
+        print("-" * 90)
+        
+        for item in datos:
+            print(f"{item['Folio']:<8}{item['Taller']:<20}{item['ID_Estudiante']:<15}"
+                f"{item['Nombre']:<25}${item['Costo']:>9}{item['Fecha']:>12}")
+        
+        print("-" * 90)
+        print(f"Total de inscripciones: {len(inscripcionesTupla)}")
+        print("-" * 90)
+
+
 def limpiarPantalla():
     import os
     os.system('cls' if os.name == 'nt' else 'clear')
